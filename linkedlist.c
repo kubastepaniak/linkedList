@@ -1,46 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef struct node
-{
-	char *data;
-	struct node* next;
-} llnode;
-
-llnode *init();
-void display(llnode *list);
-void append(llnode *list, char *value);
-int length(llnode *list);
-void push(llnode **list, char *value);
-char *pop(llnode *list);
-void destroy(llnode *list);
-llnode *copy(llnode *list);
-void reverse(llnode **list);
-
-int main(int argc, char const *argv[])
-{
-	llnode *firstList = init();
-	append(firstList, "first");
-	append(firstList, "second");
-	push(&firstList, "pushed");
-	display(firstList);
-	printf("%d\n", length(firstList));
-
-	char *new = pop(firstList);
-	printf("\npopped: %s\n", new);
-	display(firstList);
-	printf("%d\n", length(firstList));
-
-	llnode *copied = copy(firstList);
-	reverse(&copied);
-	printf("\n");
-	display(copied);
-
-	destroy(firstList);
-	destroy(copied);
-	return 0;
-}
+#include "linkedlist.h"
 
 llnode *init()
 {
@@ -135,7 +96,7 @@ llnode *copy(llnode *list)
 	return copyHead;
 }
 
-void reverse(llnode** list)
+void reverse(llnode **list)
 {
 	llnode *previousNode, *currentNode, *nextNode;
 	previousNode = (llnode*)NULL;
@@ -149,4 +110,26 @@ void reverse(llnode** list)
 		currentNode = nextNode;
 	}
 	*list = previousNode;
+}
+
+void sort(llnode *list)
+{
+	llnode *node;
+	int size = length(list);
+
+	for(int i = 0; i < size - 1; i++)
+	{
+		node = list;
+		while(node->next)
+		{
+			if(strcmp(node->data, node->next->data) > 0)
+			{
+				char *swap;
+				swap = node->data;
+				node->data = node->next->data;
+				node->next->data = swap;
+			}
+			node = node->next;
+		}
+	}
 }
