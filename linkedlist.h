@@ -11,6 +11,7 @@ llnode *init();
 void display(llnode *list);
 void append(llnode *list, char *value);
 int length(llnode *list);
+int ifEmpty(llnode *list);
 void push(llnode **list, char *value);
 char *pop(llnode *list);
 void destroy(llnode *list);

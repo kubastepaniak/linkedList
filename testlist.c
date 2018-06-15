@@ -11,21 +11,37 @@ int main(int argc, char const *argv[])
 	push(&list, "pushed");
 	display(list);
 
-	printf("\npopped: %s\n", pop(list));
+	printf("\nAFTER POP\npopped: %s\n", pop(list));
 	display(list);
 	printf("%d\n", length(list));
 
-	printf("\n");
+	printf("\nAFTER COPY\n");
 	llnode *copied = copy(list);
 	display(copied);
 
-	printf("\n");
+	printf("\nAFTER REVERSE\n");
 	reverse(&copied);
+	push(&copied, "reversePush");
 	display(copied);
 
-	printf("\n");
+	printf("\nAFTER SORTING\n");
 	sort(copied);
 	display(copied);
+	
+	printf("\nONE ELEMENT LIST\n");
+	llnode *oneelement = init();
+	printf("pop on empty: %s\n", pop(oneelement));
 
+	push(&oneelement, "onlyOne");
+	printf("pop after push: %s\n", pop(oneelement));
+	display(oneelement);
+
+	append(oneelement, "appendOne");
+	printf("pop after append: %s\n", pop(oneelement));
+	display(oneelement);
+	
+	destroy(copied);
+	destroy(list);
+	destroy(oneelement);
 	return 0;
 }

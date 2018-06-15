@@ -17,6 +17,7 @@ void display(llnode *list)
 	llnode *node = list;
 	while(node)
 	{
+		if(node->data == NULL) return;
 		printf("%s\n", node->data);
 		node = node->next;
 	}
@@ -25,7 +26,7 @@ void display(llnode *list)
 void append(llnode *list, char *value)
 {
 	llnode *node = list;
-	if(!node->data && node->next == NULL)
+	if(ifEmpty(node))
 		node->data = value;
 	else
 	{
@@ -34,6 +35,14 @@ void append(llnode *list, char *value)
 		node->next = init();
 		node->next->data = value;
 	}
+}
+
+int ifEmpty(llnode *list)
+{
+	if(list->data == NULL && list->next == NULL)
+		return 1;
+	else
+		return 0;
 }
 
 int length(llnode *list)
@@ -50,23 +59,42 @@ int length(llnode *list)
 
 void push(llnode **list, char *value)
 {
-	llnode *head = init();
-	head->data = value;
-	head->next = *list;
-	*list = head;
+	if(ifEmpty(*list))
+	{
+		(*list)->data = value;
+	}
+	else
+	{
+		llnode *head = init();
+		head->data = value;
+		head->next = *list;
+		*list = head;
+	}
 }
 
 char *pop(llnode *list)
 {
 	llnode *node = list;
+	
 	char *value;
-	while(node->next->next)
-		node = node->next;
-
-	value = node->next->data;
-	free(node->next);
-	node->next = NULL;
-
+	if(ifEmpty(list))
+	{
+		return NULL;
+	}
+	else if(node->next == NULL)
+	{
+		value = node->data;
+		node->data = NULL;
+	}
+	else
+	{
+		while(node->next->next)
+			node = node->next;
+			
+		value = node->next->data;
+		free(node->next);
+		node->next = NULL;
+	}
 	return value;
 }
 
